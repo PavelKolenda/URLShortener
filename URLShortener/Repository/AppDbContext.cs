@@ -14,7 +14,7 @@ public class AppDbContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder options)
     {
-        var serverVersion = new MySqlServerVersion(new Version(8, 0, 39));
+        var serverVersion = new MySqlServerVersion(new Version(_configuration["MySqlOptions:ServerVersion"]));
         options.UseMySql(_configuration.GetConnectionString("MySql"), serverVersion);
     }
 
