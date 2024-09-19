@@ -1,33 +1,35 @@
-﻿using URLShortener.Repository;
+﻿using Microsoft.Extensions.Options;
+using URLShortener.Options;
+using URLShortener.Repository;
+using URLShortener.Services.Interfaces;
 
 namespace URLShortener.Services;
 public class UrlShorteningService : IUrlShorteningService
 {
-    const int NumberOfCharsInShortUrl = 6;
-    const string Chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-
+    private readonly UrlShorteningOptions _options;
     private readonly Random _random = new Random();
     private readonly IUrlShortRepository _shortUrlRepository;
 
-    public UrlShorteningService(IUrlShortRepository shortUrlRepository)
+    public UrlShorteningService(IUrlShortRepository shortUrlRepository, IOptions<UrlShorteningOptions> options)
     {
         _shortUrlRepository = shortUrlRepository;
+        _options = options.Value;
     }
 
     public async Task<string> Generate()
     {
         while (true)
         {
-            char[] shortUrl = new char[NumberOfCharsInShortUrl];
-            for (int i = 0; i < NumberOfCharsInShortUrl; i++)
+            char[] shortUrl = new char[_options.NumberOfCharsInShortUrl];
+            for (int i = 0; i < _options.NumberOfCharsInShortUrl; i++)
             {
-                int index = _random.Next(Chars.Length - 1);
-                shortUrl[i] = Chars[index];
+                int index = _random.Next(_options.Chars.Length - 1);
+                shortUrl[i] = _options.Chars[index];
             }
 
             string code = new(shortUrl);
 
-            if (await _shortUrlRepository.IsShortUrlUnique(code))
+            if (await _shortUrlRepository.IsShortUrlUniqueAsync(code))
             {
                 return code;
             }
