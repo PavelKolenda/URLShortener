@@ -1,4 +1,3 @@
-using Microsoft.Extensions.Configuration;
 using URLShortener.Extensions;
 using URLShortener.Options;
 using URLShortener.Repository;
@@ -7,12 +6,10 @@ using URLShortener.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
+builder.Services.AddHttpContextAccessor();
 builder.Services.AddExceptionHandling();
 
 builder.Services.Configure<UrlShorteningOptions>(builder.Configuration.GetSection("UrlShorteningOptions"));
