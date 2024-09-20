@@ -1,4 +1,4 @@
-const api = 'https://localhost:7132';
+import { api, displayError } from './script.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('updateForm');

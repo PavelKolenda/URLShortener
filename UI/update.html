@@ -3,16 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Update URL</title>
+    <title>Изменение URL</title>
 </head>
 <body>
     <h1>Изменение URL</h1>
     <form id="updateForm">
         <input type="hidden" id="urlId">
-        <p id="longUrl"></p>
-        <input type="text" id="newLongUrl" placeholder="Введите новый URL" required>
-        <button type="submit">Изменить</button>
+        <div>
+            <span>Прежний длинный URL: </span>
+            <span id="longUrl"></span>
+        </div>
+        <div style="margin-top: 10px;">
+            <input type="text" id="newLongUrl" placeholder="Введите новый URL" required>
+            <button type="submit">Изменить</button>
+        </div>
     </form>
-    <script src="js/update.js"></script>
+    <script type="module" src="js/update.js"></script>
 </body>
 </html>

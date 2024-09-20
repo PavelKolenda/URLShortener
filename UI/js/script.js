@@ -72,7 +72,7 @@ function addLinkCell(row, href) {
 
 function createDeleteButton(id) {
     const button = document.createElement('button');
-    button.textContent = 'Delete';
+    button.textContent = 'Удалить';
     button.addEventListener('click', async () => {
         await deleteUrl(id);
         loadUrls();
@@ -82,7 +82,7 @@ function createDeleteButton(id) {
 
 function createUpdateButton(id, longUrl) {
     const button = document.createElement('button');
-    button.textContent = 'Update';
+    button.textContent = 'Обновить';
     button.addEventListener('click', () => {
         window.location.href = `update.html?id=${id}&longUrl=${encodeURIComponent(longUrl)}`;
     });
@@ -98,3 +98,5 @@ async function deleteUrl(id) {
 function displayError(error) {
     alert(`Error: ${error.message}`);
 }
+
+export { displayError, api }
