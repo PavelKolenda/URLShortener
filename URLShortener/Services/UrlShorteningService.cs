@@ -20,18 +20,18 @@ public class UrlShorteningService : IUrlShorteningService
     {
         while (true)
         {
-            char[] shortUrl = new char[_options.NumberOfCharsInShortUrl];
+            char[] code = new char[_options.NumberOfCharsInShortUrl];
             for (int i = 0; i < _options.NumberOfCharsInShortUrl; i++)
             {
                 int index = _random.Next(_options.Chars.Length - 1);
-                shortUrl[i] = _options.Chars[index];
+                code[i] = _options.Chars[index];
             }
 
-            string code = new(shortUrl);
+            string shortUrl = new(code);
 
-            if (await _shortUrlRepository.IsShortUrlUniqueAsync(code))
+            if (await _shortUrlRepository.IsShortUrlUniqueAsync(shortUrl))
             {
-                return code;
+                return shortUrl;
             }
         }
     }
