@@ -30,7 +30,7 @@ public class UrlService : IUrlService
     {
         _urlValidationService.ValidateUrl(shortenedUrlDto.LongUrl);
 
-        var shortenedUrl = await _shortUrlRepository.GetByIdAsync(id);
+        ShortenedUrl shortenedUrl = await _shortUrlRepository.GetByIdAsync(id);
         shortenedUrl.LongUrl = shortenedUrlDto.LongUrl;
 
         await _shortUrlRepository.UpdateAsync(shortenedUrl);

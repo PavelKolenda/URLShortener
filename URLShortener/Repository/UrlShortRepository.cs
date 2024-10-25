@@ -34,10 +34,10 @@ public class UrlShortRepository : IUrlShortRepository
 
     public async Task<ShortenedUrl> GetUrlAsync(string shortUrl)
     {
-        var shortenedUrl = await _context.ShortenedUrls
-            .FirstOrDefaultAsync(s => s.ShortUrl.EndsWith(shortUrl))
-            ??
-            throw new NotFoundException($"Short URL wasn't found.");
+        ShortenedUrl shortenedUrl = await _context.ShortenedUrls
+                                        .FirstOrDefaultAsync(s => s.ShortUrl.EndsWith(shortUrl))
+                                    ??
+                                    throw new NotFoundException($"Short URL wasn't found.");
 
         shortenedUrl.ClickCount++;
         await _context.SaveChangesAsync();

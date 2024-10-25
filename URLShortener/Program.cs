@@ -4,7 +4,7 @@ using URLShortener.Repository;
 using URLShortener.Services;
 using URLShortener.Services.Interfaces;
 
-var builder = WebApplication.CreateBuilder(args);
+WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -22,7 +22,7 @@ builder.Services.AddScoped<IUrlValidationService, UrlValidationService>();
 builder.Services.AddScoped<IUrlShorteningService, UrlShorteningService>();
 
 
-var app = builder.Build();
+WebApplication app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -32,13 +32,13 @@ if (app.Environment.IsDevelopment())
     app.ApplyMigrations();
 }
 
-app.UseExceptionHandler(opt => { });
+app.UseExceptionHandler(_ => { });
 
 app.UseHttpsRedirection();
 
 app.UseCors(options =>
 {
-    options.SetIsOriginAllowed(origin => true)
+    options.SetIsOriginAllowed(_ => true)
            .AllowAnyMethod()
            .AllowAnyHeader()
            .AllowCredentials();

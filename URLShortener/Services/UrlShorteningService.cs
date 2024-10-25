@@ -7,13 +7,14 @@ namespace URLShortener.Services;
 public class UrlShorteningService : IUrlShorteningService
 {
     private readonly UrlShorteningOptions _options;
-    private readonly Random _random = new Random();
+    private readonly Random _random;
     private readonly IUrlShortRepository _shortUrlRepository;
 
     public UrlShorteningService(IUrlShortRepository shortUrlRepository, IOptions<UrlShorteningOptions> options)
     {
         _shortUrlRepository = shortUrlRepository;
         _options = options.Value;
+        _random = new Random();
     }
 
     public async Task<string> Generate()

@@ -19,7 +19,7 @@ public class UrlShortenerController : ControllerBase
     [HttpPost("shorten")]
     public async Task<IActionResult> Shorten([FromBody] UrlShortenRequest request)
     {
-        var shortenedUrl = await _urlManagementService.CreateShortUrlAsync(request, HttpContext);
+        ShortenedUrl shortenedUrl = await _urlManagementService.CreateShortUrlAsync(request, HttpContext);
 
         return Ok(shortenedUrl);
     }
