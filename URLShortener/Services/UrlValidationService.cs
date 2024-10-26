@@ -1,23 +1,12 @@
-﻿using Microsoft.AspNetCore.Http;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 using URLShortener.Services.Interfaces;
 
 namespace URLShortener.Services;
-public class UrlValidationService : IUrlValidationService
+public class UrlValidationService(IHttpContextAccessor httpContext) : IUrlValidationService
 {
-    private readonly IHttpContextAccessor _httpContext;
-
-    public UrlValidationService(IHttpContextAccessor httpContext)
-    {
-        _httpContext = httpContext;
-    }
-
     public void ValidateUrl(string url)
     {
-
-        HttpContext httpContext = _httpContext.HttpContext;
-
-        if (!Uri.TryCreate(url, UriKind.Absolute, out Uri? uriResult))
+        if (!Uri.TryCreate(url, UriKind.Absolute, out Uri? uriResult) || !ValidateUrlWithRegex(url))
         {
             throw new InvalidUrlException("The provided URL is not valid.");
         }
@@ -36,14 +25,9 @@ public class UrlValidationService : IUrlValidationService
         {
             throw new InvalidUrlException("The provided URL is already shorten.");
         }
-
-        if (!ValidateUrlWithRegex(url))
-        {
-            throw new InvalidUrlException("The provided URL is not valid.");
-        }
     }
 
-    private bool ValidateUrlWithRegex(string url)
+    private static bool ValidateUrlWithRegex(string url)
     {
         Regex urlRegex = new(
             @"^(https?):\/\/(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,6}" +
@@ -56,26 +40,17 @@ public class UrlValidationService : IUrlValidationService
 
     private bool IsUrlShorten(Uri uri)
     {
-        HttpContext httpContext = _httpContext.HttpContext;
-
-        if (uri.Scheme == httpContext.Request.Scheme 
-            && uri.Host == httpContext.Request.Host.Host.ToString()
-            && uri.AbsolutePath.Trim('/').Length == 6)
-        {
-            return true;
-        }
-
-        return false;
+        HttpContext context = httpContext.HttpContext
+                              ?? throw new ArgumentNullException(nameof(httpContext));
+        
+        return uri.Scheme == context.Request.Scheme
+               && uri.Host == context.Request.Host.Host
+               && uri.AbsolutePath.Trim('/').Length == 6;
     }
 
-    private bool IsUrlUsingHttp(Uri uri)
+    private static bool IsUrlUsingHttp(Uri uri)
     {
-        if (!uri.Scheme.Equals("http", StringComparison.OrdinalIgnoreCase) &&
-            !uri.Scheme.Equals("https", StringComparison.OrdinalIgnoreCase))
-        {
-            return true;
-        }
-
-        return false;
+        return !uri.Scheme.Equals("http", StringComparison.OrdinalIgnoreCase) &&
+               !uri.Scheme.Equals("https", StringComparison.OrdinalIgnoreCase);
     }
 }
