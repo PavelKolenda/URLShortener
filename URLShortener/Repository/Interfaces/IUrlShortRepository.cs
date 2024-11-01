@@ -1,6 +1,7 @@
 ﻿using URLShortener.Models;
 
-namespace URLShortener.Repository;
+namespace URLShortener.Repository.Interfaces;
+
 public interface IUrlShortRepository
 {
     Task AddAsync(ShortenedUrl shortenedUrl);
