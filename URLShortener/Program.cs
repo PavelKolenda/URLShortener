@@ -1,6 +1,7 @@
 using URLShortener.Extensions;
 using URLShortener.Options;
 using URLShortener.Repository;
+using URLShortener.Repository.Interfaces;
 using URLShortener.Services;
 using URLShortener.Services.Interfaces;
 
@@ -17,14 +18,12 @@ builder.Services.Configure<UrlShorteningOptions>(builder.Configuration.GetSectio
 builder.Services.AddDbContext<AppDbContext>();
 builder.Services.AddScoped<IUrlService, UrlService>();
 builder.Services.AddScoped<IUrlShortRepository, UrlShortRepository>();
-builder.Services.AddScoped<IUrlManagementService, UrlManagementService>();
+builder.Services.AddScoped<IUrlShortenerService, UrlShortenerService>();
 builder.Services.AddScoped<IUrlValidationService, UrlValidationService>();
 builder.Services.AddScoped<IUrlShorteningService, UrlShorteningService>();
 
-
 WebApplication app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -39,13 +38,13 @@ app.UseHttpsRedirection();
 app.UseCors(options =>
 {
     options.SetIsOriginAllowed(_ => true)
-           .AllowAnyMethod()
-           .AllowAnyHeader()
-           .AllowCredentials();
+        .AllowAnyMethod()
+        .AllowAnyHeader()
+        .AllowCredentials();
 });
 
 app.UseAuthorization();
 
 app.MapControllers();
 
-app.Run();
+await app.RunAsync();
