@@ -1,6 +1,7 @@
 ﻿namespace URLShortener.Options;
+
 public class UrlShorteningOptions
 {
-    public int NumberOfCharsInShortUrl { get; set; }
-    public string Chars { get; set; }
+    public int NumberOfCharsInShortUrl { get; init; }
+    public required string Chars { get; init; }
 }
