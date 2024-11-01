@@ -1,4 +1,5 @@
 ﻿using System.Text.RegularExpressions;
+using URLShortener.Models.Exceptions;
 using URLShortener.Services.Interfaces;
 
 namespace URLShortener.Services;
