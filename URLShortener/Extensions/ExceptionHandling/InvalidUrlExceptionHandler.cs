@@ -1,11 +1,13 @@
 ﻿using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using URLShortener.Models.Exceptions;
 
 namespace URLShortener.Extensions.ExceptionHandling;
 
 public class InvalidUrlExceptionHandler : IExceptionHandler
 {
-    public async ValueTask<bool> TryHandleAsync(HttpContext httpContext, Exception exception, CancellationToken cancellationToken)
+    public async ValueTask<bool> TryHandleAsync(HttpContext httpContext, Exception exception,
+        CancellationToken cancellationToken)
     {
         if (exception is not InvalidUrlException)
         {
@@ -14,11 +16,9 @@ public class InvalidUrlExceptionHandler : IExceptionHandler
 
         httpContext.Response.StatusCode = StatusCodes.Status400BadRequest;
 
-        await httpContext.Response.WriteAsJsonAsync(new ProblemDetails()
-        {
-            Status = httpContext.Response.StatusCode,
-            Detail = exception.Message,
-        }, cancellationToken);
+        await httpContext.Response.WriteAsJsonAsync(
+            new ProblemDetails { Status = httpContext.Response.StatusCode, Detail = exception.Message },
+            cancellationToken);
 
         return true;
     }
