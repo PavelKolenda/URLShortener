@@ -2,20 +2,18 @@
 using URLShortener.Models;
 
 namespace URLShortener.Repository;
-public class AppDbContext : DbContext
+
+public class AppDbContext(IConfiguration configuration) : DbContext
 {
-    private readonly IConfiguration _configuration;
-    public AppDbContext(IConfiguration configuration)
-    {
-        _configuration = configuration;
-    }
+    public DbSet<ShortenedUrl> ShortenedUrls { get; init; }
 
-    public DbSet<ShortenedUrl> ShortenedUrls { get; set; }
+    private const string MySqlServerVersion = "8.0.39";
 
-    protected override void OnConfiguring(DbContextOptionsBuilder options)
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        MySqlServerVersion serverVersion = new(new Version(_configuration["MySqlOptions:ServerVersion"]));
-        options.UseMySql(_configuration.GetConnectionString("MySql"), serverVersion);
+        MySqlServerVersion serverVersion =
+            new(new Version(configuration["MySqlOptions:ServerVersion"] ?? MySqlServerVersion));
+        optionsBuilder.UseMySql(configuration.GetConnectionString("MySql"), serverVersion);
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -26,4 +24,3 @@ public class AppDbContext : DbContext
         });
     }
 }
-
