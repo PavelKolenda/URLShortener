@@ -1,10 +1,13 @@
-﻿namespace URLShortener.Models;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace URLShortener.Models;
 public class ShortenedUrl
 {
-    public int Id { get; set; }
-    public string LongUrl { get; set; }
-    public string ShortUrl { get; set; }
-    public DateTime CreatedAt { get; set; }
+    public int Id { get; init; }
+    [StringLength(1000)]
+    public required string LongUrl { get; set; }
+    [StringLength(35)]
+    public required string ShortUrl { get; init; }
+    public DateTime CreatedAt { get; init; }
     public int ClickCount { get; set; }
 }
-
