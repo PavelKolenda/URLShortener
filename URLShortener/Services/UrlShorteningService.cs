@@ -1,21 +1,15 @@
 ﻿using Microsoft.Extensions.Options;
 using URLShortener.Options;
-using URLShortener.Repository;
+using URLShortener.Repository.Interfaces;
 using URLShortener.Services.Interfaces;
 
 namespace URLShortener.Services;
-public class UrlShorteningService : IUrlShorteningService
-{
-    private readonly UrlShorteningOptions _options;
-    private readonly Random _random;
-    private readonly IUrlShortRepository _shortUrlRepository;
 
-    public UrlShorteningService(IUrlShortRepository shortUrlRepository, IOptions<UrlShorteningOptions> options)
-    {
-        _shortUrlRepository = shortUrlRepository;
-        _options = options.Value;
-        _random = new Random();
-    }
+public class UrlShorteningService(IUrlShortRepository shortUrlRepository, IOptions<UrlShorteningOptions> options)
+    : IUrlShorteningService
+{
+    private readonly UrlShorteningOptions _options = options.Value;
+    private readonly Random _random = new();
 
     public async Task<string> Generate()
     {
@@ -30,7 +24,7 @@ public class UrlShorteningService : IUrlShorteningService
 
             string shortUrl = new(code);
 
-            if (await _shortUrlRepository.IsShortUrlUniqueAsync(shortUrl))
+            if (await shortUrlRepository.IsShortUrlUniqueAsync(shortUrl))
             {
                 return shortUrl;
             }
