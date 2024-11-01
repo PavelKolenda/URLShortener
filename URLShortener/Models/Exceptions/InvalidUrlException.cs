@@ -1,3 +1,3 @@
-﻿public class InvalidUrlException(string message) : Exception(message)
-{
-}
+﻿namespace URLShortener.Models.Exceptions;
+
+public class InvalidUrlException(string message) : Exception(message);
