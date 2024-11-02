@@ -4,7 +4,7 @@ using URLShortener.Models.Exceptions;
 
 namespace URLShortener.Extensions.ExceptionHandling;
 
-public class InvalidUrlExceptionHandler : IExceptionHandler
+public class InvalidUrlExceptionHandler(ILogger<InvalidUrlExceptionHandler> logger) : IExceptionHandler
 {
     public async ValueTask<bool> TryHandleAsync(HttpContext httpContext, Exception exception,
         CancellationToken cancellationToken)
@@ -20,6 +20,8 @@ public class InvalidUrlExceptionHandler : IExceptionHandler
             new ProblemDetails { Status = httpContext.Response.StatusCode, Detail = exception.Message },
             cancellationToken);
 
+        logger.LogError(exception, exception.Message);
+        
         return true;
     }
 }
