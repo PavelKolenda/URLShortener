@@ -1,0 +1,45 @@
+services:
+  db:
+    image: mysql:8.0.39
+    ports:
+      - '3307:3306'
+    environment:
+      MYSQL_ROOT_PASSWORD: 1234
+      MYSQL_DATABASE: urlshortener
+    volumes:
+      - urlshortener_db:/var/lib/mysql
+    networks:
+      - urlshortener_net
+    container_name: urlshortener_db
+    
+  urlshortener_api:
+    build:
+      context: ./URLShortener
+      dockerfile: Dockerfile
+    ports:
+      - '8080:8080'
+      - '8081:8081'
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    networks:
+      - urlshortener_net
+    depends_on:
+      - db
+    container_name: urlshortener_api
+  
+  urlshortener_nginx:
+    build:
+      context: ./UI
+      dockerfile: Dockerfile
+    ports:
+      - '8079:80'
+    depends_on:
+      - urlshortener_api
+    container_name: urlshortener_nginx
+
+volumes:
+  urlshortener_db:
+
+networks:
+  urlshortener_net:
+  
