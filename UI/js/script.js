@@ -1,4 +1,4 @@
-const api = 'https://localhost:7132';
+const api = 'http://localhost:8080';
 
 document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('shortenForm');
