@@ -5,21 +5,26 @@ using URLShortener.Repository.Interfaces;
 
 namespace URLShortener.Repository;
 
-public class UrlShortRepository(AppDbContext context) : IUrlShortRepository
+public class UrlShortRepository(
+    AppDbContext context, 
+    ILogger<UrlShortRepository> logger) : IUrlShortRepository
 {
     public async Task AddAsync(ShortenedUrl shortenedUrl)
     {
         await context.ShortenedUrls.AddAsync(shortenedUrl);
         await context.SaveChangesAsync();
+        logger.LogInformation("Add url @{ShortenedUrl}", shortenedUrl);
     }
 
     public async Task<List<ShortenedUrl>> GetAsync()
     {
+        logger.LogInformation("Get urls from database");
         return await context.ShortenedUrls.ToListAsync();
     }
 
     public async Task DeleteAsync(int id)
     {
+        logger.LogInformation("Delete url with id:@{Id}", id);
         await context.ShortenedUrls
             .Where(x => x.Id == id)
             .ExecuteDeleteAsync();
@@ -39,6 +44,7 @@ public class UrlShortRepository(AppDbContext context) : IUrlShortRepository
 
         shortenedUrl.ClickCount++;
         await context.SaveChangesAsync();
+        logger.LogInformation("Get url @{ShortUrl}", shortUrl);
 
         return shortenedUrl;
     }
@@ -46,6 +52,7 @@ public class UrlShortRepository(AppDbContext context) : IUrlShortRepository
     public async Task UpdateAsync(ShortenedUrl shortenedUrl)
     {
         context.ShortenedUrls.Update(shortenedUrl);
+        logger.LogInformation("Update url @{ShortenedUrl}", shortenedUrl);
         await context.SaveChangesAsync();
     }
 
