@@ -1,3 +1,4 @@
+using Serilog;
 using URLShortener.Extensions;
 using URLShortener.Options;
 using URLShortener.Repository;
@@ -11,6 +12,12 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddHttpContextAccessor();
+
+builder.Host.UseSerilog((context, configuration) =>
+{
+    configuration.ReadFrom.Configuration(builder.Configuration);
+});
+
 builder.Services.AddExceptionHandling();
 
 builder.Services.Configure<UrlShorteningOptions>(builder.Configuration.GetSection("UrlShorteningOptions"));
