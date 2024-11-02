@@ -3,28 +3,28 @@ using URLShortener.Models.Exceptions;
 using URLShortener.Services.Interfaces;
 
 namespace URLShortener.Services;
-public class UrlValidationService(IHttpContextAccessor httpContext) : IUrlValidationService
+public class UrlValidationService(IHttpContextAccessor httpContext): IUrlValidationService
 {
     public void ValidateUrl(string url)
     {
         if (!Uri.TryCreate(url, UriKind.Absolute, out Uri? uriResult) || !ValidateUrlWithRegex(url))
         {
-            throw new InvalidUrlException("The provided URL is not valid.");
+            throw new InvalidUrlException($"The provided URL is not valid. Url: {url}");
         }
 
         if (IsUrlUsingHttp(uriResult))
         {
-            throw new InvalidUrlException("The URL must start with 'http' or 'https'.");
+            throw new InvalidUrlException($"The URL must start with 'http' or 'https'. Url: {url}");
         }
 
         if (string.IsNullOrWhiteSpace(uriResult.Host))
         {
-            throw new InvalidUrlException("The URL must have a valid host.");
+            throw new InvalidUrlException($"The URL must have a valid host. Url: {url}");
         }
 
         if (IsUrlShorten(uriResult))
         {
-            throw new InvalidUrlException("The provided URL is already shorten.");
+            throw new InvalidUrlException($"The provided URL is already shorten. Url: {url}");
         }
     }
 
