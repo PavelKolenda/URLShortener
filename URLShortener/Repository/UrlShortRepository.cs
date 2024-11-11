@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using URLShortener.Extensions.Pagination;
 using URLShortener.Models;
 using URLShortener.Models.Exceptions;
 using URLShortener.Repository.Interfaces;
@@ -20,6 +21,13 @@ public class UrlShortRepository(
     {
         logger.LogInformation("Get urls from database");
         return await context.ShortenedUrls.ToListAsync();
+    }
+
+    public async Task<PagedList<ShortenedUrl>> GetPagedAsync(PagedParams pagingParams)
+    {
+        IQueryable<ShortenedUrl> query = context.ShortenedUrls.AsQueryable();
+        
+        return await query.CreatePagedListAsync(pagingParams.Page, pagingParams.PageSize);
     }
 
     public async Task DeleteAsync(int id)
