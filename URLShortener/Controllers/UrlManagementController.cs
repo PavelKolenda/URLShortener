@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using URLShortener.DTO;
+using URLShortener.Extensions.Pagination;
 using URLShortener.Services.Interfaces;
 
 namespace URLShortener.Controllers;
@@ -9,9 +10,9 @@ namespace URLShortener.Controllers;
 public class UrlManagementController(IUrlService urlService) : ControllerBase
 {
     [HttpGet("list")]
-    public async Task<IActionResult> Get()
+    public async Task<IActionResult> Get([FromQuery]PagedParams pagedParams)
     {
-        return Ok(await urlService.GetAsync());
+        return Ok(await urlService.GetPagedAsync(pagedParams));
     }
 
     [HttpDelete("{id:int}")]
