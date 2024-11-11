@@ -1,4 +1,5 @@
 ﻿using URLShortener.DTO;
+using URLShortener.Extensions.Pagination;
 using URLShortener.Models;
 using URLShortener.Repository.Interfaces;
 using URLShortener.Services.Interfaces;
@@ -13,6 +14,11 @@ public class UrlService(
     public async Task<List<ShortenedUrl>> GetAsync()
     {
         return await shortUrlRepository.GetAsync();
+    }
+
+    public async Task<PagedList<ShortenedUrl>> GetPagedAsync(PagedParams pagedParams)
+    {
+        return await shortUrlRepository.GetPagedAsync(pagedParams);
     }
 
     public async Task DeleteAsync(int id)
