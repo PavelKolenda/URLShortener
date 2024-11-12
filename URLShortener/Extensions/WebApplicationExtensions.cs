@@ -2,6 +2,7 @@
 using URLShortener.Repository;
 
 namespace URLShortener.Extensions;
+
 public static class WebApplicationExtensions
 {
     public static void ApplyMigrations(this WebApplication app)

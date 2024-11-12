@@ -7,7 +7,7 @@ using URLShortener.Repository.Interfaces;
 namespace URLShortener.Repository;
 
 public class UrlShortRepository(
-    AppDbContext context, 
+    AppDbContext context,
     ILogger<UrlShortRepository> logger) : IUrlShortRepository
 {
     public async Task AddAsync(ShortenedUrl shortenedUrl)
@@ -26,7 +26,7 @@ public class UrlShortRepository(
     public async Task<PagedList<ShortenedUrl>> GetPagedAsync(PagedParams pagingParams)
     {
         IQueryable<ShortenedUrl> query = context.ShortenedUrls.AsQueryable();
-        
+
         return await query.CreatePagedListAsync(pagingParams.Page, pagingParams.PageSize);
     }
 

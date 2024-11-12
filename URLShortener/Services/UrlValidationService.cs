@@ -3,7 +3,8 @@ using URLShortener.Models.Exceptions;
 using URLShortener.Services.Interfaces;
 
 namespace URLShortener.Services;
-public class UrlValidationService(IHttpContextAccessor httpContext): IUrlValidationService
+
+public class UrlValidationService(IHttpContextAccessor httpContext) : IUrlValidationService
 {
     public void ValidateUrl(string url)
     {
@@ -43,7 +44,7 @@ public class UrlValidationService(IHttpContextAccessor httpContext): IUrlValidat
     {
         HttpContext context = httpContext.HttpContext
                               ?? throw new ArgumentNullException(nameof(httpContext));
-        
+
         return uri.Scheme == context.Request.Scheme
                && uri.Host == context.Request.Host.Host
                && uri.AbsolutePath.Trim('/').Length == 6;

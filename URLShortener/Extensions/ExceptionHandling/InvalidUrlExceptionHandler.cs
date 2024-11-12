@@ -21,7 +21,7 @@ public class InvalidUrlExceptionHandler(ILogger<InvalidUrlExceptionHandler> logg
             cancellationToken);
 
         logger.LogError(exception, exception.Message);
-        
+
         return true;
     }
 }

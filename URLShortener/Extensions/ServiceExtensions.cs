@@ -1,6 +1,7 @@
 ﻿using URLShortener.Extensions.ExceptionHandling;
 
 namespace URLShortener.Extensions;
+
 public static class ServiceExtensions
 {
     public static void AddExceptionHandling(this IServiceCollection services)
@@ -10,4 +11,3 @@ public static class ServiceExtensions
         services.AddExceptionHandler<GlobalExceptionHandler>();
     }
 }
-

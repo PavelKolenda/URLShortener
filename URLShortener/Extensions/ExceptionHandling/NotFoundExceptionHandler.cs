@@ -19,9 +19,9 @@ public class NotFoundExceptionHandler(ILogger<NotFoundExceptionHandler> logger) 
         await httpContext.Response.WriteAsJsonAsync(
             new ProblemDetails { Status = httpContext.Response.StatusCode, Detail = exception.Message },
             cancellationToken);
-        
+
         logger.LogError(exception, exception.Message);
-        
+
         return true;
     }
 }

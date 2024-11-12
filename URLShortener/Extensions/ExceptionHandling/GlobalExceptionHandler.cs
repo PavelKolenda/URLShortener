@@ -12,7 +12,7 @@ public class GlobalExceptionHandler(ILogger<GlobalExceptionHandler> logger) : IE
 
         httpContext.Response.WriteAsJsonAsync(new ProblemDetails { Status = httpContext.Response.StatusCode },
             cancellationToken);
-        
+
         logger.LogError(exception, exception.Message);
 
         return ValueTask.FromResult(true);

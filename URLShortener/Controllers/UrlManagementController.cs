@@ -10,7 +10,7 @@ namespace URLShortener.Controllers;
 public class UrlManagementController(IUrlService urlService) : ControllerBase
 {
     [HttpGet("list")]
-    public async Task<IActionResult> Get([FromQuery]PagedParams pagedParams)
+    public async Task<IActionResult> Get([FromQuery] PagedParams pagedParams)
     {
         return Ok(await urlService.GetPagedAsync(pagedParams));
     }

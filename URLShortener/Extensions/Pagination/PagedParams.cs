@@ -6,7 +6,9 @@ public class PagedParams
 {
     private int _pageSize;
     public int Page { get; set; }
-    public int PageSize { 
+
+    public int PageSize
+    {
         get => _pageSize;
         set
         {

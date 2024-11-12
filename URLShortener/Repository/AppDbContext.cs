@@ -13,7 +13,7 @@ public class AppDbContext(IConfiguration configuration) : DbContext
     {
         MySqlServerVersion serverVersion =
             new(new Version(configuration["MySqlOptions:ServerVersion"] ?? MySqlServerVersion));
-        optionsBuilder.UseMySql(configuration.GetConnectionString("MySqlDocker"), serverVersion);
+        optionsBuilder.UseMySql(configuration.GetConnectionString("MySql"), serverVersion);
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
