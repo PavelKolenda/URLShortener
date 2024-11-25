@@ -14,7 +14,7 @@ public class UrlShortenerService(
     {
         urlValidationService.ValidateUrl(request.LongUrl);
 
-        string shortUrl = await urlShorteningService.Generate();
+        string shortUrl = await urlShorteningService.GenerateAsync();
 
         ShortenedUrl shortedUrl = new()
         {

@@ -1,5 +1,5 @@
 ﻿namespace URLShortener.Services.Interfaces;
 public interface IUrlShorteningService
 {
-    Task<string> Generate();
+    Task<string> GenerateAsync();
 }
