@@ -10,7 +10,12 @@ public class GlobalExceptionHandler(ILogger<GlobalExceptionHandler> logger) : IE
     {
         httpContext.Response.StatusCode = StatusCodes.Status500InternalServerError;
 
-        httpContext.Response.WriteAsJsonAsync(new ProblemDetails { Status = httpContext.Response.StatusCode },
+        httpContext.Response
+            .WriteAsJsonAsync(new ProblemDetails
+                {
+                    Status = httpContext.Response.StatusCode,
+                    Detail = exception.Message
+                },
             cancellationToken);
 
         logger.LogError(exception, exception.Message);
