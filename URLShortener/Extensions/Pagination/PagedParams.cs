@@ -1,5 +1,3 @@
-using Microsoft.AspNetCore.Mvc.Infrastructure;
-
 namespace URLShortener.Extensions.Pagination;
 
 public class PagedParams
@@ -14,7 +12,7 @@ public class PagedParams
         {
             _pageSize = value switch
             {
-                > 100 => 100,
+                >= 100 => 100,
                 <= 0 => 10,
                 _ => _pageSize
             };

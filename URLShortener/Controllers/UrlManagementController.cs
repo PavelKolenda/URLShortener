@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using URLShortener.DTO;
+using URLShortener.Extensions.Filters;
 using URLShortener.Extensions.Pagination;
 using URLShortener.Services.Interfaces;
 
@@ -7,6 +8,7 @@ namespace URLShortener.Controllers;
 
 [ApiController]
 [Route("")]
+[ValidateId]
 public class UrlManagementController(IUrlService urlService) : ControllerBase
 {
     [HttpGet("list")]

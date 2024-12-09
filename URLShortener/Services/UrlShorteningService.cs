@@ -11,7 +11,7 @@ public class UrlShorteningService(IUrlShortRepository shortUrlRepository, IOptio
     private readonly UrlShorteningOptions _options = options.Value;
     private readonly Random _random = new();
 
-    public async Task<string> Generate()
+    public async Task<string> GenerateAsync()
     {
         while (true)
         {

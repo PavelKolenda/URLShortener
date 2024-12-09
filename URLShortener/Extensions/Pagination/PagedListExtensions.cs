@@ -16,4 +16,16 @@ public static class PagedListExtensions
 
         return new PagedList<T>(items, pageNumber, pageSize, totalCount);
     }
+
+    public static PagedList<T> CreatePagedListFromList<T>(List<T> source, int pageNumber, int pageSize)
+    {
+        int totalCount = source.Count;
+
+        List<T> items = source
+            .Skip((pageNumber - 1) * pageSize)
+            .Take(pageSize)
+            .ToList();
+        
+        return new PagedList<T>(items, pageNumber, pageSize, totalCount);
+    }
 }
